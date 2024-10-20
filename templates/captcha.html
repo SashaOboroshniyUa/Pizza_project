@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ captcha }}</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style_captcha.css">
+</head>
+<body>
+    <h1>{{ captcha }}</h1>
+    <img class="captcha" src="../static/images/captcha.png">
+    <form method="POST" action="/index/">
+        <input type="text" name="captcha" required>
+        <button type="submit">Confirmed</button>
+    </form>
+</body>
+</html>

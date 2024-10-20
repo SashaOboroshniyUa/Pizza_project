@@ -43,3 +43,7 @@ body {
 .work_number {
     font-size: 50px;
 }
+
+.secret{
+    text-decoration: none;
+}
