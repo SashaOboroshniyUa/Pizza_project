@@ -47,3 +47,15 @@ body {
 .secret{
     text-decoration: none;
 }
+
+.center_result{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result{
+    color: red;
+    font-size: 50px;
+    text-decoration: none;
+}
