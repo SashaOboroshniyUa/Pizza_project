@@ -59,3 +59,16 @@ body {
     font-size: 50px;
     text-decoration: none;
 }
+
+.center_text{
+    text-align: center;
+    font-size: 60px;
+}
+
+.commands{
+    color:rgb(255, 217, 0);
+    position: relative;
+    position: absolute;
+    bottom: 0;
+    font-size: 30px;
+}
