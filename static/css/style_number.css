@@ -1,0 +1,9 @@
+.hot_line_number {
+    position: relative;
+    position: absolute;
+    bottom: 0;
+}
+
+.work_number {
+    font-size: 50px;
+}

@@ -13,7 +13,7 @@ rabs = [
 ban_name = ["Negr", "Gay", "Gomoseksual", "Gayporno", "Porno", "Niger", "Nige", "Nig"]
 
 
-@app.route('/results/')
+@app.get('/results/')
 def results():
     context = {
         "title": "Results",
