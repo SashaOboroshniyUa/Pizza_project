@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style_menu.css">
+    <link rel="icon" href="../static/images/pizza_icon.png">
+</head>
+<body>
+{% include "menu_buttons.html" %}
+<div class="center">
+    <table border="5px">
+        <caption>
+            <b>Menu</b>
+        </caption>
+        {% for item in menu | sort(attribute="price", reverse=true) %}
+        <tr>
+            <th>{{ item.name }}</th>
+            <th>{{ item.description }}</th>
+            <th>{{ item.price }}</th>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% include "hot_line.html" %}
+</body>
+</html>

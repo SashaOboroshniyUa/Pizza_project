@@ -10,6 +10,12 @@ rabs = [
   {"name": "aboba_mini", "score": 78},
   {"name": "stager", "score": -1}
 ]
+menu = [
+    {"name": "Pepperoni", "description": "mozzarella, champignons, salami, pesto sauce, tomato sauce, oregano", "price": 60},
+    {"name": "Pizza BBQ", "description": "Chicken fillet, smoked brisket, onion, hunting sausages, suluguni, parsley, mozzarella, sauce", "price": 69},
+    {"name": "4 Cheeses", "description": "mozzarella cheese, ripe tomatoes and fresh basil leaves", "price": 50},
+    {"name": "Diablo", "description": "sausages (Bavarian, Vienna, pepperoni), soft mozzarella cheese, mushrooms, bell pepper", "price": 80}
+]
 ban_name = ["Negr", "Gay", "Gomoseksual", "Gayporno", "Porno", "Niger", "Nige", "Nig"]
 
 
@@ -46,19 +52,30 @@ def post_login():
         return render_template("index.html", users=user)
 
 
-@app.get("/about/")
-def about():
-    return render_template("about.html")
+@app.get("/menu2/")
+def menu2():
+    menu_item = {
+        "menu": menu
+    }
+    return render_template("menu2.html", **menu_item)
+
+
+@app.get("/menu1/")
+def menu1():
+    menu_item = {
+        "menu": menu
+    }
+    return render_template("menu1.html", **menu_item)
+
+
+@app.get("/menu3/")
+def special_offer():
+    return render_template("menu3.html")
 
 
 @app.get("/secret_pizza/")
 def secret_pizza():
     return render_template("secret_pizza.html")
-
-
-@app.get("/commands/")
-def absolute_rabs():
-    return render_template("rabs.html")
 
 
 if __name__ == "__main__":

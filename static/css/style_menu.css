@@ -3,14 +3,13 @@ body {
 }
 
 table {
-    color: white;
+    color: black;
     width: 200px;
     font-size: 30px;
 }
 
 caption {
     color: red;
-    font-size: 60px;
 }
 
 th {
