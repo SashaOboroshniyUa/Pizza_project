@@ -17,6 +17,7 @@ menu = [
     {"name": "Diablo", "description": "sausages (Bavarian, Vienna, pepperoni), soft mozzarella cheese, mushrooms, bell pepper", "price": 80}
 ]
 ban_name = ["Negr", "Gay", "Gomoseksual", "Gayporno", "Porno", "Niger", "Nige", "Nig"]
+secret_key = "I big love JavaScript & TailWind🥵 and nenavishu React! Please ocenit my project and pashalko!"
 
 
 @app.get('/results/')
@@ -43,13 +44,27 @@ def post_captcha():
         return abort(404)
 
 
-@app.post("/login")
+@app.post("/login/")
 def post_login():
     user = request.form["name"].capitalize()
     if user in ban_name:
         return abort(404)
     else:
         return render_template("index.html", users=user)
+
+
+@app.get("/secret_pizza/")
+def secret_pizza():
+    return render_template("secret_pizza.html")
+
+
+@app.post("/secret_pizza/")
+def secret_promokod():
+    secret_key_input = request.form.get("key")
+    if secret_key_input == secret_key:
+        return render_template("promokod.html")
+    else:
+        return abort(404)
 
 
 @app.get("/menu2/")
@@ -71,11 +86,6 @@ def menu1():
 @app.get("/menu3/")
 def special_offer():
     return render_template("menu3.html")
-
-
-@app.get("/secret_pizza/")
-def secret_pizza():
-    return render_template("secret_pizza.html")
 
 
 if __name__ == "__main__":
