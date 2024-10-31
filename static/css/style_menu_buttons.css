@@ -1,9 +1,36 @@
-button {
-    background-color: red;
-    text-decoration: none;
-    height: 30px;
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: tomato;
+    border-bottom: 1px solid #c34832;
 }
 
-b {
-    font-size: 20px;
+.menu li {
+    list-style-type: none;
+}
+
+.menu li a {
+    display: block;
+    width: 200px;
+    padding: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all .2s linear;
+    border-right: 1px solid #c34832;
+}
+
+.menu li a:hover {
+    background-color: #c34832;
+}
+
+.menu li:first-child a {
+    border-left: 1px solid #c34832;
 }
