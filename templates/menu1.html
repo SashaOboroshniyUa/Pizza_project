@@ -13,11 +13,11 @@
         <caption>
             <b>Menu</b>
         </caption>
-        {% for item in menu | sort(attribute="price") %}
+        {% for pizza in pizzas | sort(attribute="price") %}
         <tr>
-            <th>{{ item.name }}</th>
-            <th>{{ item.description }}</th>
-            <th>{{ item.price }}</th>
+            <td>{{ pizza[0] }}</td>
+            <td>{{ pizza[1] }}</td>
+            <td>{{ pizza[2] }} грн</td>
         </tr>
         {% endfor %}
     </table>
