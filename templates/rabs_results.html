@@ -9,7 +9,7 @@
     <ul>
         {% for rab in rabs %}
         <li>
-        {% if rab.score >= 80 %} good {% elif 80 > rab.score > 0 %} no salary {% elif rab.score < 0 %} dont have salary all time {% endif %}
+        {% if rab.score >= 80 %} good {% elif 80 > rab.score > 0 %} no salary {% elif rab.score < 0 %} don't have salary all time {% endif %}
             <b> {{ rab.name }}: </b> {{ rab.score }}/{{ max_score }}
         </li>
         {% endfor %}

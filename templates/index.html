@@ -14,11 +14,24 @@
             <img class="img_logo" src="../static/images/pizza_logo.png">
         </a>
     </div>
-    <a class="menu" href="/menu2/" target="_blank">Menu</a>
-    {% include "hot_line.html" %}
-    <div class="center_result">
-        <a class="result" href="/results/" target="_blank">Best Employees of the Month</a>
+    <div class="center_menu">
+    <ul class="mainMenu">
+        <li>
+            Menu >
+            <ul class="subMenu">
+                <li><a href="/menu/">Original Menu</a></li>
+                <li><a href="/menu2/">From higher price to lower price Menu</a></li>
+                <li><a href="/menu3/">Special offer Menu</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="/results/">
+                Best Employees of the Month
+            </a>
+        </li>
+    </ul>
     </div>
+    {% include "hot_line.html" %}
 </body>
 <script src="../static/js/special_offer.js"></script>
 </html>

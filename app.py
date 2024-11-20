@@ -1,6 +1,5 @@
-import sqlite3
-
 from flask import Flask, render_template, request, abort
+import sqlite3
 
 
 app = Flask(__name__)
@@ -50,6 +49,11 @@ def post_captcha():
 @app.get("/get_admin_panel/")
 def get_admin_panel():
     return render_template("admin_panel.html")
+
+
+@app.get("/login/")
+def get_login():
+    return render_template("index.html")
 
 
 @app.post("/login/")
@@ -112,7 +116,7 @@ def create_pizza():
 
         cursor.execute(create_table_query)
     except sqlite3.Error as error:
-        print("хуй", error)
+        print("х", error)
 
     return render_template("login.html")
 
