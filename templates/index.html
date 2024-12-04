@@ -14,6 +14,21 @@
             <img class="img_logo" src="../static/images/pizza_logo.png">
         </a>
     </div>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% elif weather_data.temp >= 20 %}
+    <div class="border">
+        <p>Температура: {{ weather_data.temp }}°C и советуем купить очень холодный Diablo</p>
+        <p>Описание: {{ weather_data.description }}</p>
+    </div>
+    {% elif weather_data.temp < 20 %}
+    <div class="border2">
+        <p>Температура: {{ weather_data.temp }}°C и советуем купить наши авторские пиццы</p>
+        <p>Описание: {{ weather_data.description }}</p>
+    </div>
+    {% else %}
+        <p>Данные о погоде недоступны.</p>
+    {% endif %}
     <div class="center_menu">
     <ul class="mainMenu">
         <li>

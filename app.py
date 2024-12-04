@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, abort
+import requests
 import sqlite3
 
 
 app = Flask(__name__)
 
+LAT = 51.5074
+LON = -0.1278
 CAPTCHA = "abo123"
 ADMIN_NAME = "Kostya_senior_ananas"
+API_KEY = "7ae5c2863ff6d702930e5f74508b80f5"
 max_score = 100
 rabs = [
   {"name": "Aboba", "score": 100},
@@ -68,7 +72,30 @@ def post_login():
         return render_template("admin_panel.html")
     else:
         print("wadw")
-        return render_template("index.html", users=user)
+        weather = weather_index()
+        print(weather)
+        return render_template("index.html", users=user, weather_data=weather)
+
+
+def weather_index():
+    weather_data = None
+    error_message = None
+    location = "Kherson"
+    try:
+        weather = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={API_KEY}&units=metric")
+        data = weather.json()
+        #дайте мне просто пульт от ядер...
+
+        current_weather = data
+        print(current_weather)
+        weather_data = {
+            "temp": current_weather["main"]["temp"],
+            "description": current_weather["weather"][0]["description"],
+        }
+        return weather_data
+
+    except Exception as erro:
+        error_message = str(erro)
 
 
 @app.get("/secret_pizza/")
