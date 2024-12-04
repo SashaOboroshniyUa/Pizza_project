@@ -78,8 +78,6 @@ def post_login():
 
 
 def weather_index():
-    weather_data = None
-    error_message = None
     location = "Kherson"
     try:
         weather = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={API_KEY}&units=metric")
