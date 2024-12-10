@@ -31,3 +31,7 @@ th {
     position: relative;
     z-index: 1000;
 }
+
+.button_sigma{
+    background-image: linear-gradient(#ffa600,#ff0d0d);
+}

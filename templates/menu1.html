@@ -15,9 +15,19 @@
         </caption>
         {% for pizza in pizzas | sort(attribute="price") %}
         <tr>
-            <td>{{ pizza[0] }}</td>
             <td>{{ pizza[1] }}</td>
-            <td>{{ pizza[2] }} грн</td>
+            <td>{{ pizza[2] }}</td>
+            <td>{{ pizza[3] }} грн</td>
+            <td>
+                <form action="/{{ pizza[0] }}/edit/" method="post">
+                    <button type="submit" class="button_sigma">Edit</button>
+                </form>
+            </td>
+            <td>
+                <form action="/{{ pizza[0] }}/delete/" method="post">
+                    <button type="submit" class="button_sigma">Delete</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </table>

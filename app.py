@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, redirect, url_for, abort
 import requests
 import sqlite3
 
@@ -57,7 +57,8 @@ def get_admin_panel():
 
 @app.get("/login/")
 def get_login():
-    return render_template("index.html")
+    weather = weather_index()
+    return render_template("index.html", weather_data=weather, user=None)
 
 
 @app.post("/login/")
@@ -79,21 +80,17 @@ def post_login():
 
 def weather_index():
     location = "Kherson"
-    try:
-        weather = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={API_KEY}&units=metric")
-        data = weather.json()
-        #дайте мне просто пульт от ядер...
+    weather = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={API_KEY}&units=metric")
+    data = weather.json()
+    #дайте мне просто пульт от ядер...
 
-        current_weather = data
-        print(current_weather)
-        weather_data = {
-            "temp": current_weather["main"]["temp"],
-            "description": current_weather["weather"][0]["description"],
-        }
-        return weather_data
-
-    except Exception as erro:
-        error_message = str(erro)
+    current_weather = data
+    print(current_weather)
+    weather_data = {
+        "temp": current_weather["main"]["temp"],
+        "description": current_weather["weather"][0]["description"],
+    }
+    return weather_data
 
 
 @app.get("/secret_pizza/")
@@ -126,13 +123,14 @@ def special_offer():
 @app.get('/init/')
 def create_pizza():
     try:
-        sqlite_connection = sqlite3.connect('sql_admin.db')
+        sqlite_connection = sqlite3.connect('sqlite_sql.db')
         cursor = sqlite_connection.cursor()
 
 
 
         create_table_query = """
-                    CREATE TABLE IF NOT EXISTS pizza_db (
+                    CREATE TABLE IF NOT EXISTS pizza_sql (
+                        id INTEGER PRIMARY KEY,
                         name TEXT NOT NULL,
                         description TEXT UNIQUE,
                         price REAL
@@ -150,12 +148,13 @@ def create_pizza():
 def add_pizza():
         name = request.form["name"]
         description = request.form["description"]
-        price = request.form["price"]
+        price = float(request.form["price"])
+        weather = weather_index()
 
         try:
-            sqlite_connection = sqlite3.connect("sql_admin.db")
+            sqlite_connection = sqlite3.connect("sqlite_sql.db")
             cursor = sqlite_connection.cursor()
-            insert_query = """INSERT INTO pizza_db
+            insert_query = """INSERT INTO pizza_sql
             (name, description, price) 
             VALUES (?, ?, ?);"""
             cursor.execute(insert_query, (name, description, int(price)))
@@ -164,14 +163,14 @@ def add_pizza():
         except sqlite3.Error as error:
             print("Проблема: ", error)
 
-        return render_template("index.html")
+        return render_template("index.html", weather_data=weather, user=None)
 
 
 def get_pizzas():
-    sqlite_connection = sqlite3.connect("sql_admin.db")
+    sqlite_connection = sqlite3.connect("sqlite_sql.db")
     try:
         cursor = sqlite_connection.cursor()
-        cursor.execute("SELECT * FROM pizza_db")
+        cursor.execute("SELECT * FROM pizza_sql")
         pizza = cursor.fetchall()
         return pizza
 
@@ -192,6 +191,62 @@ def display_menu():
     except Exception as eror:
         print("Ошибка при отображении меню:", eror)
         abort(500)
+
+
+def get_post_id(post_id):
+    connection = get_db_connection()
+    post = connection.execute("SELECT * FROM pizza_sql WHERE id = ?", (post_id,)).fetchone()
+    connection.close()
+    if post is None:
+        abort(404)
+    return post
+
+
+def get_db_connection():
+    connection = sqlite3.connect("sqlite_sql.db")
+    connection.row_factory = sqlite3.Row
+    return connection
+
+
+@app.get("/<int:post_id>/edit/")
+def get_edit(post_id):
+    post = get_post_id(post_id)
+    if not post:
+        abort(404)
+    return render_template("edit.html", post=post)
+
+
+@app.post("/<int:post_id>/edit/")
+def post_edit(post_id):
+    post = get_post_id(post_id)
+    print("wadawdawd", post_id)
+    name = request.form.get("name")
+    description = request.form.get("description")
+    price = request.form.get("price")
+    if not name or len(name) < 3:
+        print("Title is required!")
+        return render_template("edit.html", post=post)
+    else:
+        connection = get_db_connection()
+        connection.execute("UPDATE pizza_sql SET name = ?, description = ?, price = ? WHERE id = ?", (name, description, price, post_id))
+        connection.commit()
+        connection.close()
+        return redirect(url_for("display_menu"))
+
+
+@app.post("/<int:post_id>/delete/")
+def post_delete(post_id):
+    print(f"Attempting to delete post with ID: {post_id}")
+    connection = get_db_connection()
+    try:
+        connection.execute("DELETE FROM pizza_sql WHERE id = ?", (post_id,))
+        connection.commit()
+        print(f"Deleted post with ID: {post_id}")
+    except sqlite3.Error as error:
+        print(f"Error deleting post: {error}")
+    finally:
+        connection.close()
+    return redirect(url_for("display_menu"))
 
 
 if __name__ == "__main__":
