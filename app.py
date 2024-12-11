@@ -219,7 +219,7 @@ def get_edit(post_id):
 @app.post("/<int:post_id>/edit/")
 def post_edit(post_id):
     post = get_post_id(post_id)
-    print("wadawdawd", post_id)
+    print("wadawdawd", post_id) #это был 6 час фикса
     name = request.form.get("name")
     description = request.form.get("description")
     price = request.form.get("price")
@@ -236,14 +236,14 @@ def post_edit(post_id):
 
 @app.post("/<int:post_id>/delete/")
 def post_delete(post_id):
-    print(f"Attempting to delete post with ID: {post_id}")
+    print(f"сигма бой {post_id}")
     connection = get_db_connection()
     try:
         connection.execute("DELETE FROM pizza_sql WHERE id = ?", (post_id,))
         connection.commit()
-        print(f"Deleted post with ID: {post_id}")
+        print(f"удален сигма бой: {post_id}")
     except sqlite3.Error as error:
-        print(f"Error deleting post: {error}")
+        print(f"ошибка сигма боя: {error}")
     finally:
         connection.close()
     return redirect(url_for("display_menu"))
